@@ -55,7 +55,7 @@ class Run_Model:
 
 
 def main():
-    representations=['complex_network_features','RNA_Ernie']
+    representations=['zcurve_'+str(i) for i in range (0,21)]
     for rep in representations:
         print('Starting for: '+rep)
         rm=Run_Model([rep],rep+'.json')

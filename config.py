@@ -1,3 +1,3 @@
-representation_dir='representations'
+representation_dir='sliding_window'
 datapath='raw_data/All_Dataset.csv'
-outpath='outfolder'
+outpath='sliding_outfolder'
