@@ -88,8 +88,20 @@ def CTD(seq):
         return(str(num_A/n),str(num_T/n),str(num_G/n),str(num_C/n),str(AT_trans/(n-1)),str(AG_trans/(n-1)),str(AC_trans/(n-1)),str(TG_trans/(n-1)),str(TC_trans/(n-1)),str(GC_trans/(n-1)),str(A0_dis),str(A1_dis),str(A2_dis),str(A3_dis),str(A4_dis),str(T0_dis),str(T1_dis),str(T2_dis),str(T3_dis),str(T4_dis),str(G0_dis),str(G1_dis),str(G2_dis),str(G3_dis),str(G4_dis),str(C0_dis),str(C1_dis),str(C2_dis),str(C3_dis),str(C4_dis))
 
 def get_ctd(sequences):
-        # feaname = (["A", "T", "G", "C", "AT", "AG", "AC", "TG", "TC", "GC", "A0", "A1", "A2", "A3", "A4", "T0", "T1", "T2", "T3", "T4", "G0", "G1", "G2", "G3", "G4", "C0", "C1", "C2", "C3", "C4"])
-        # feaname = (["CA", "CT", "CG", "CC", "AT", "AG", "AC", "TG", "TC", "GC", "A0", "A1", "A2", "A3", "A4", "T0", "T1", "T2", "T3", "T4", "G0", "G1", "G2", "G3", "G4", "C0", "C1", "C2", "C3", "C4"])
+        """
+        Returns Composition-Transition-Distribution features for sequences.
+
+        Parameters
+        ----------
+        sequences : list[str]
+            A list of RNA sequences.
+
+        Returns
+        -------
+        pandas.DataFrame
+            DF with CTD features.
+
+        """        
         feaname = (
         ['ComRA: Composition of A','ComRT: Composition of T','ComRG: Composition of G','ComRC: Composition of C','TraAT: Transition between A and T','TraAG: Transition between A and G','TraAC: Transition between A and C','TraTG: Transition between T and G','TraTC: Transition between T and C','TraGC: Transition between G and C','DPRA0: Distribution of 0.00A','DPRA1: Distribution of 0.25A','DPRA2: Distribution of 0.50A','DPRA3: Distribution of 0.75A','DPRA4: Distribution of 1.00A','DPRT0: Distribution of 0.00T','DPRT1: Distribution of 0.25T','DPRT2: Distribution of 0.50T','DPRT3: Distribution of 0.75T','DPRT4: Distribution of 1.00T','DPRG0: Distribution of 0.00G','DPRG1: Distribution of 0.25G','DPRG2: Distribution of 0.50G','DPRG3: Distribution of 0.75G','DPRG4: Distribution of 1.00G','DPRC0: Distribution of 0.00C','DPRC1: Distribution of 0.25C','DPRC2: Distribution of 0.50C','DPRC3: Distribution of 0.75C','DPRC4: Distribution of 1.00C'])
 
@@ -110,6 +122,20 @@ def get_ctd(sequences):
         return df
 
 def GC_count(sequences):
+    """
+    Returns G-C features for sequences.
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with G-C features.
+
+    """    
     features = []
     for seq in sequences:
         seq = seq.upper()

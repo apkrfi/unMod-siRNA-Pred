@@ -30,6 +30,8 @@ class Model:
         self.metric_dictionary={}
 
     def create_model(self):
+        """ Create sklearn models """ 
+
         if(self.name=='RF'):
             self.clf = RandomForestClassifier(n_estimators=1000,max_depth=2, random_state=42)#n_estimators-->reduced
         elif(self.name=='MLP'):
@@ -48,6 +50,8 @@ class Model:
             self.clf = SGDClassifier(loss="log_loss", max_iter=5)
     
     def get_metrics(self):
+        """ Generate classification metrics """ 
+
         fpr,tpr,thresholds = metrics.roc_curve(self.dataset.test_Y, self.scores_y)
         self.metric_dictionary['roc_auc'] = metrics.auc(fpr, tpr)
         self.metric_dictionary['pr_auc'] = metrics.average_precision_score(self.dataset.test_Y, self.scores_y)
@@ -56,6 +60,8 @@ class Model:
         
 
     def run_model(self):
+        """ runs model for instance's dataset and model type """
+
         self.clf.fit(self.dataset.train_X, self.dataset.train_Y)
         self.pred_y=self.clf.predict(self.dataset.test_X)
         self.scores_y=self.clf.predict_proba(self.dataset.test_X)[:, 1]

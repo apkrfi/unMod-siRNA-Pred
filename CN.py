@@ -13,6 +13,7 @@ def _patterns(seq, k):
 
 
 def _extract_features_from_graph(g: Graph):
+    
     feats = {
         "avg_betweenness": np.mean(g.betweenness(directed=False, weights=None)),
         "avg_degree": np.mean(g.degree()),
@@ -31,6 +32,24 @@ def _extract_features_from_graph(g: Graph):
 
 
 def complex_network_features(sequences, k=3, threshold=3):
+    """
+    Returns Complex Network features(by _extract_features_from_graph()) for sequences.
+
+    Parameters
+    ----------
+    sequences : list[str]
+       A list of RNA sequences.
+    k: int
+       k for k-mers
+    threshold: int
+       Threshold for eliminating edges of size < threshold to extract features again.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with CTD features.
+
+    """    
     all_features = []
 
     for seq in sequences:

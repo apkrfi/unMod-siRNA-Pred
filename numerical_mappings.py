@@ -2,7 +2,23 @@ import numpy as np
 import pandas as pd
 
 def zcurve(sequences, max_length=None):
-    """Z-Curve representation."""
+    """
+    Returns 3D z-curve representations.
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+
+    max_length: int
+                maximum length of sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with z-curves for each sequence.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)
@@ -39,7 +55,27 @@ def zcurve(sequences, max_length=None):
 
 
 def integer(sequences, max_length=None):
-    """Integer representation."""
+    """
+    Returns integer representations --> 
+    U/T:0
+    C:1
+    A:2
+    G:3
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+
+    max_length: int
+                maximum length of sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with integer equivalents for each sequence.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)
@@ -56,7 +92,27 @@ def integer(sequences, max_length=None):
 
 
 def real(sequences, max_length=None):
-    """Real number representation."""
+    """
+    Returns real representations --> 
+    U/T:1.5
+    C:0.5
+    A:-1.5
+    G:-0.5
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+
+    max_length: int
+                maximum length of sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with real equivalents for each sequence.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)
@@ -73,7 +129,27 @@ def real(sequences, max_length=None):
 
 
 def EIIP(sequences, max_length=None):
-    """EIIP representation."""
+    """
+    Returns EIIP (Electron-Ion Interaction Pseudopotentials) Values --> 
+    U/T:0.1335
+    C:0.1340
+    A:0.1260
+    G:0.0806
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+
+    max_length: int
+                maximum length of sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with EIIP values for each sequence.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)
@@ -90,7 +166,27 @@ def EIIP(sequences, max_length=None):
 
 
 def atomic_number(sequences, max_length=None):
-    """Atomic number representation."""
+    """
+    Returns atomic number based representations for sequences --> 
+    U/T:66
+    C:58
+    A:70
+    G:78
+
+    Parameters
+    ----------
+    sequences : list
+        List of RNA sequences
+
+    max_length: int
+                maximum length of sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with atomic number based equivalents for each sequence.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)

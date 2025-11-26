@@ -3,6 +3,24 @@ import pandas as pd
 from collections import Counter
 
 def frequency_chaos(sequences, k=3, max_length=None):
+    """
+    Returns Frequency Chaos Game Representations for sequences.
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+    k : int
+        k value for k-mers
+    max_length: int
+                maximum length of sequences
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with FCGRs for all sequences.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)
@@ -28,6 +46,22 @@ def frequency_chaos(sequences, k=3, max_length=None):
 
 
 def classifical_chaos(sequences, max_length=None):
+    """
+    Returns Chaos Game Representations for sequences.
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+    max_length : int
+        Maximum length of sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with classical chaos representations.
+
+    """
     features = []
     if max_length is None:
         max_length = max(len(seq) for seq in sequences)

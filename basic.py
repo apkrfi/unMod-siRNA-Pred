@@ -4,6 +4,23 @@ import itertools
 import numpy as np
 
 def kmer_counts(sequences, k=3):
+    """
+    Returns K-mer counts for the given sequences.
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+        
+    k : int
+        k value for k-mers
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with counts for all possible k-mers for the input sequence.
+
+    """
     alphabet = "ACGT"
     all_kmers = [''.join(p) for p in itertools.product(alphabet, repeat=k)]
     
@@ -16,6 +33,20 @@ def kmer_counts(sequences, k=3):
     return pd.DataFrame(records, index=[f"seq{i+1}" for i in range(len(sequences))])
 
 def one_hot(sequences):
+    """
+    Returns One Hot Encodings for the given sequences.
+
+    Parameters
+    ----------
+    sequences : list[str]
+        A list of RNA sequences.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DF with one hot encodings of the input sequence.
+
+    """
     alphabet = "ACGT"
     mapping = {char: i for i, char in enumerate(alphabet)}
 
