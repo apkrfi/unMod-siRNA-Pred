@@ -103,12 +103,48 @@ class Run_Model:
             json.dump(self.metrics, fp) 
 
 
+    def databound_test(self):
+        model_names=['RF','LGR','DT']
+        train_index=self.data.index[self.data['sources'] == 'Huesken'].tolist()
+        test_index=self.data.index[self.data['sources'] == 'Other'].tolist()
+        n_data=list(range(50, len(train_index), 50))
+        widgets = [' [',
+        progressbar.Timer(format= 'elapsed time: %(elapsed)s'),
+        '] ',
+        progressbar.Bar('#'),' (',
+        progressbar.ETA(), ') ',
+        ]
+        bar = progressbar.ProgressBar(max_value=10*len(n_data), 
+                        widgets=widgets).start()
+        
+        bar_status=0
+        for n in n_data:
+            for rep in range(1,10):
+
+                train_index_subset=np.random.choice(train_index, size=n, replace=False)
+                # print('Train Length: ',len(train_index_subset))
+                # print('Test Length: ',len(test_index))
+                test_group=str(n)+'_'+str(rep)
+                self.metrics[test_group]={}
+                dataset= Dataset(self.X,self.Y,train_index_subset, test_index)
+                for nm in model_names:
+                    model=Model(nm,dataset)
+                    model.create_model()
+                    model.run_model()
+                    self.metrics[test_group][nm]=model.metric_dictionary
+                bar.update(bar_status)
+                bar_status+=1
+
+        with open(os.path.join(outpath,self.outfile_name), "w") as fp:
+            json.dump(self.metrics, fp) 
+
+
 def main():
     representations=['zcurve']
     for rep in representations:
         print('Starting for: '+rep)
-        rm=Run_Model([rep],rep+'_holdout.json',huesken=False)
-        rm.holdout_run()
+        rm=Run_Model([rep],rep+'_databound.json',huesken=False)
+        rm.databound_test()
 
 if __name__ == "__main__":
     main()   
