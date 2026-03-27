@@ -1,6 +1,6 @@
 datapath='raw_data/All_Dataset.csv'
 representation_dir='representations'
-outpath='more_tests'
+outpath='LOGO_outfolder'
 
 """
 datapath

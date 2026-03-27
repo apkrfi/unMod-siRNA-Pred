@@ -5,6 +5,7 @@ from config import *
 from sklearn.model_selection import KFold, LeaveOneGroupOut, GroupShuffleSplit, train_test_split, GridSearchCV
 from models import *
 import json
+import time
 
 class Dataset:
     def __init__(self, X,Y, train_i, test_i):
@@ -60,7 +61,7 @@ class Run_Model:
         bar = progressbar.ProgressBar(max_value=30, 
                                 widgets=widgets).start()
         logo = LeaveOneGroupOut()
-        model_names=['RF','LGR','DT']
+        model_names=['LGR']#['RF','LGR','DT']
         for i, (train_index, test_index) in enumerate(logo.split(self.X, self.Y, self.groups)):
             test_group=np.unique(np.asarray(self.groups)[test_index])[0]
             self.metrics[test_group]={}
@@ -141,11 +142,14 @@ class Run_Model:
 
 
 def main():
+    start = time.perf_counter()
     representations=['zcurve']
     for rep in representations:
         print('Starting for: '+rep)
-        rm=Run_Model([rep],rep+'_databound.json',huesken=False)
-        rm.databound_test()
+        rm=Run_Model([rep],rep+'_repeat.json',huesken=True)
+        rm.logo_run()
+    end = time.perf_counter()
+    print(f"Total time: {end - start:.2f} seconds")
 
 if __name__ == "__main__":
     main()   
