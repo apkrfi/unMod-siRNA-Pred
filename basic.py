@@ -32,7 +32,7 @@ def kmer_counts(sequences, k=3):
     
     return pd.DataFrame(records, index=[f"seq{i+1}" for i in range(len(sequences))])
 
-def one_hot(sequences):
+def one_hot(sequences, max_length=None):
     """
     Returns One Hot Encodings for the given sequences.
 
@@ -47,23 +47,44 @@ def one_hot(sequences):
         DF with one hot encodings of the input sequence.
 
     """
-    alphabet = "ACGT"
-    mapping = {char: i for i, char in enumerate(alphabet)}
+    if not sequences:
+        return pd.DataFrame()
+
+    sequences = [str(seq).upper() for seq in sequences]
+
+    if max_length is None:
+        max_length = max(len(seq) for seq in sequences)
 
     encoded_records = []
+
     for seq in sequences:
-        mat = np.zeros((len(seq), len(alphabet)), dtype=int)
-        for pos, char in enumerate(seq):
-            if char in mapping:  
-                mat[pos, mapping[char]] = 1
-        encoded_records.append(mat.flatten())
-    columns = []
-    for pos in range(max(len(s) for s in sequences)):
-        for char in alphabet:
-            columns.append(f"pos{pos}_{char}")
-    
-    return pd.DataFrame(encoded_records, columns=columns[:encoded_records[0].shape[0]],
-                        index=[f"seq{i+1}" for i in range(len(sequences))])
+        # Truncate if longer than max_length
+        seq = seq[:max_length]
+
+        A, C, T, G = [], [], [], []
+
+        for nucle in seq:
+            A.append(1 if nucle == "A" else 0)
+            C.append(1 if nucle == "C" else 0)
+            T.append(1 if nucle in ("T", "U") else 0)
+            G.append(1 if nucle == "G" else 0)
+
+        concat = A + C + T + G
+
+        # Pad to max_length for each nucleotide block
+        padding = (max_length - len(seq)) * 4
+        mapping = np.pad(concat, (0, padding), mode="constant")
+
+        encoded_records.append(mapping)
+
+    # Create column names
+    columns = [f"pos{i+1}" for i in range(max_length * 4)]
+
+    return pd.DataFrame(
+        encoded_records,
+        columns=columns[:encoded_records[0].shape[0]],
+        index=[f"seq{i+1}" for i in range(len(sequences))]
+    )
 
 
     

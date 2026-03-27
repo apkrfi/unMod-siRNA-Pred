@@ -34,7 +34,7 @@ class Run_Model:
         #print(self.X)
     
     def holdout_run(self):
-        model_names=['RF','LGR','DT']
+        model_names=['RF','LGR','DT','XGB','KNN', 'SGD']
         train_index=self.data.index[self.data['sources'] == 'Huesken'].tolist()
         test_index=self.data.index[self.data['sources'] == 'Other'].tolist()
         test_group='Other'
@@ -61,7 +61,7 @@ class Run_Model:
         bar = progressbar.ProgressBar(max_value=30, 
                                 widgets=widgets).start()
         logo = LeaveOneGroupOut()
-        model_names=['LGR']#['RF','LGR','DT']
+        model_names=['SVC','RF','LGR','DT','XGB','KNN', 'SGD']
         for i, (train_index, test_index) in enumerate(logo.split(self.X, self.Y, self.groups)):
             test_group=np.unique(np.asarray(self.groups)[test_index])[0]
             self.metrics[test_group]={}
@@ -86,7 +86,7 @@ class Run_Model:
         bar = progressbar.ProgressBar(max_value=30, 
                                 widgets=widgets).start()
         logo = LeaveOneGroupOut()
-        model_names=['RF','LGR','DT']
+        model_names=['RF','LGR','DT','XGB','KNN', 'SGD']
         for i, (train_index, test_index) in enumerate(logo.split(self.X, self.Y, self.groups)):
             train_index=np.random.choice(train_index, size=len(self.groups)-150, replace=False)
             print('Train Length: ',len(train_index))
@@ -106,7 +106,7 @@ class Run_Model:
 
 
     def databound_test(self):
-        model_names=['RF','LGR','DT']
+        model_names=['RF','LGR','DT','XGB','KNN', 'SGD']
         train_index=self.data.index[self.data['sources'] == 'Huesken'].tolist()
         test_index=self.data.index[self.data['sources'] == 'Other'].tolist()
         n_data=list(range(50, len(train_index), 50))
@@ -143,10 +143,10 @@ class Run_Model:
 
 def main():
     start = time.perf_counter()
-    representations=['zcurve']
+    representations=['zcurve','one_hot','real','RinaLMO','RNA_BERT','RNA_Ernie','EIIP','atomic_number','classifical_chaos','complex_network_features','frequency_chaos','GC_count','global_descriptor','integer','kmer_counts']
     for rep in representations:
         print('Starting for: '+rep)
-        rm=Run_Model([rep],rep+'_repeat.json',huesken=True)
+        rm=Run_Model([rep],rep+'.json',huesken=True)
         rm.logo_run()
     end = time.perf_counter()
     print(f"Total time: {end - start:.2f} seconds")
