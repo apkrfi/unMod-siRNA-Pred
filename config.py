@@ -1,6 +1,6 @@
 datapath='raw_data/All_Dataset.csv'
-representation_dir='representations'
-outpath='LOGO_outfolder'
+representation_dir='sliding_window_representations'
+outpath='sliding_window_outfolder'
 
 """
 datapath

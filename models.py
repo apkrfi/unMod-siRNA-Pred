@@ -29,6 +29,7 @@ class Model:
         self.scores_y=[]
         self.metric_dictionary={}
 
+
     def create_model(self):
         """ Create sklearn models """ 
 

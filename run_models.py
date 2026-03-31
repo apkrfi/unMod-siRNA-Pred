@@ -34,7 +34,7 @@ class Run_Model:
         #print(self.X)
     
     def holdout_run(self):
-        model_names=['RF','LGR','DT','XGB','KNN', 'SGD']
+        model_names=['SVC','RF','LGR','DT','XGB','KNN', 'SGD']
         train_index=self.data.index[self.data['sources'] == 'Huesken'].tolist()
         test_index=self.data.index[self.data['sources'] == 'Other'].tolist()
         test_group='Other'
@@ -86,7 +86,7 @@ class Run_Model:
         bar = progressbar.ProgressBar(max_value=30, 
                                 widgets=widgets).start()
         logo = LeaveOneGroupOut()
-        model_names=['RF','LGR','DT','XGB','KNN', 'SGD']
+        model_names=['SVC','RF','LGR','DT','XGB','KNN', 'SGD']
         for i, (train_index, test_index) in enumerate(logo.split(self.X, self.Y, self.groups)):
             train_index=np.random.choice(train_index, size=len(self.groups)-150, replace=False)
             print('Train Length: ',len(train_index))
@@ -104,9 +104,10 @@ class Run_Model:
         with open(os.path.join(outpath,self.outfile_name), "w") as fp:
             json.dump(self.metrics, fp) 
 
+    
 
     def databound_test(self):
-        model_names=['RF','LGR','DT','XGB','KNN', 'SGD']
+        model_names=['SVC','RF','LGR','DT','XGB','KNN', 'SGD']
         train_index=self.data.index[self.data['sources'] == 'Huesken'].tolist()
         test_index=self.data.index[self.data['sources'] == 'Other'].tolist()
         n_data=list(range(50, len(train_index), 50))
