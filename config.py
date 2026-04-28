@@ -1,6 +1,6 @@
 datapath='raw_data/All_Dataset.csv'
-representation_dir='sliding_window_representations'
-outpath='sliding_window_outfolder'
+representation_dir='representations'
+outpath='other_CV_tests'
 
 """
 datapath

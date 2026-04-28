@@ -51,6 +51,31 @@ class Run_Model:
         with open(os.path.join(outpath,self.outfile_name), "w") as fp:
             json.dump(self.metrics, fp) 
 
+    def kfold_run(self):
+        widgets = [' [',
+            progressbar.Timer(format= 'elapsed time: %(elapsed)s'),
+            '] ',
+            progressbar.Bar('#'),' (',
+            progressbar.ETA(), ') ',
+            ]
+        bar = progressbar.ProgressBar(max_value=30, 
+                                widgets=widgets).start()
+        kf = KFold(n_splits=10,shuffle=True)
+        model_names=['SVC','RF','LGR','DT','XGB','KNN', 'SGD']
+        for i, (train_index, test_index) in enumerate(kf.split(self.X, self.Y)):
+            test_group='Fold_'+str(i)
+            self.metrics[test_group]={}
+            dataset= Dataset(self.X,self.Y,train_index, test_index)
+            for nm in model_names:
+                model=Model(nm,dataset)
+                model.create_model()
+                model.run_model()
+                self.metrics[test_group][nm]=model.metric_dictionary
+            bar.update(i)
+        #print(self.metrics)
+        with open(os.path.join(outpath,self.outfile_name), "w") as fp:
+            json.dump(self.metrics, fp) 
+
     def logo_run(self):
         widgets = [' [',
             progressbar.Timer(format= 'elapsed time: %(elapsed)s'),
@@ -144,11 +169,12 @@ class Run_Model:
 
 def main():
     start = time.perf_counter()
-    representations=['zcurve','one_hot','real','RinaLMO','RNA_BERT','RNA_Ernie','EIIP','atomic_number','classifical_chaos','complex_network_features','frequency_chaos','GC_count','global_descriptor','integer','kmer_counts']
+    #representations=['zcurve','one_hot','real','RinaLMO','RNA_BERT','RNA_Ernie','EIIP','atomic_number','classifical_chaos','complex_network_features','frequency_chaos','GC_count','global_descriptor','integer','kmer_counts']
+    representations=['zcurve']
     for rep in representations:
         print('Starting for: '+rep)
-        rm=Run_Model([rep],rep+'.json',huesken=True)
-        rm.logo_run()
+        rm=Run_Model([rep],rep+'_kfold.json',huesken=True)
+        rm.kfold_run()
     end = time.perf_counter()
     print(f"Total time: {end - start:.2f} seconds")
 
