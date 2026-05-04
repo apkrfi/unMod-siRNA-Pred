@@ -34,21 +34,21 @@ class Model:
         """ Create sklearn models """ 
 
         if(self.name=='RF'):
-            self.clf = RandomForestClassifier(n_estimators=1000,max_depth=2, random_state=42)#n_estimators-->reduced
+            self.clf = RandomForestClassifier(random_state=42)#n_estimators-->reduced
         elif(self.name=='MLP'):
-            self.clf = MLPClassifier(solver='adam', max_iter=5000,activation='logistic',alpha=1e-5,hidden_layer_sizes=(62, 12), random_state=42,learning_rate='adaptive')#https://doi.org/10.1016/j.ygeno.2024.110815
+            self.clf = MLPClassifier(random_state=42)#https://doi.org/10.1016/j.ygeno.2024.110815
         elif(self.name=='XGB'):
-            self.clf=XGBClassifier(n_estimators=2, max_depth=2, learning_rate=1, objective='binary:logistic')
+            self.clf=XGBClassifier(random_state=42,objective='binary:logistic')
         elif(self.name == 'SVC'):
-            self.clf = SVC(kernel='rbf', probability=True, random_state=42,max_iter=5000) 
+            self.clf = SVC(probability=True, random_state=42) 
         elif(self.name == 'LGR'):
             self.clf = LogisticRegression(random_state=42)
         elif(self.name == 'DT'):
-            self.clf = tree.DecisionTreeClassifier()
+            self.clf = tree.DecisionTreeClassifier(random_state=42)
         elif(self.name == 'KNN'):
-            self.clf = KNeighborsClassifier(n_neighbors=7)
+            self.clf = KNeighborsClassifier()
         elif(self.name == 'SGD'):
-            self.clf = SGDClassifier(loss="log_loss", max_iter=5)
+            self.clf = SGDClassifier(random_state=42,loss="log_loss")
     
     def get_metrics(self):
         """ Generate classification metrics """ 

@@ -169,12 +169,12 @@ class Run_Model:
 
 def main():
     start = time.perf_counter()
-    #representations=['zcurve','one_hot','real','RinaLMO','RNA_BERT','RNA_Ernie','EIIP','atomic_number','classifical_chaos','complex_network_features','frequency_chaos','GC_count','global_descriptor','integer','kmer_counts']
+    #representations=['zcurve','one_hot','real','EIIP','atomic_number','classifical_chaos','complex_network_features','frequency_chaos','GC_count','global_descriptor','integer','kmer_counts']
     representations=['zcurve']
     for rep in representations:
         print('Starting for: '+rep)
-        rm=Run_Model([rep],rep+'_kfold.json',huesken=True)
-        rm.kfold_run()
+        rm=Run_Model([rep],rep+'_holdout.json',huesken=False)
+        rm.holdout_run()
     end = time.perf_counter()
     print(f"Total time: {end - start:.2f} seconds")
 
