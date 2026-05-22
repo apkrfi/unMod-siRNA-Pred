@@ -5,5 +5,5 @@ test_representations.py
 single_window_outfolder/
 .ruff_cache/
 images/
-more_tests
+more_tests/
 .ipynb
