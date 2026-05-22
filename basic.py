@@ -3,6 +3,7 @@ from collections import Counter
 import itertools
 import numpy as np
 
+
 def kmer_counts(sequences, k=3):
     """
     Returns K-mer counts for the given sequences.
@@ -11,7 +12,7 @@ def kmer_counts(sequences, k=3):
     ----------
     sequences : list[str]
         A list of RNA sequences.
-        
+
     k : int
         k value for k-mers
 
@@ -22,15 +23,16 @@ def kmer_counts(sequences, k=3):
 
     """
     alphabet = "ACGT"
-    all_kmers = [''.join(p) for p in itertools.product(alphabet, repeat=k)]
-    
+    all_kmers = ["".join(p) for p in itertools.product(alphabet, repeat=k)]
+
     records = []
     for seq in sequences:
-        counts = Counter([seq[i:i+k] for i in range(len(seq)-k+1)])
+        counts = Counter([seq[i : i + k] for i in range(len(seq) - k + 1)])
         row = {kmer: counts.get(kmer, 0) for kmer in all_kmers}
         records.append(row)
-    
-    return pd.DataFrame(records, index=[f"seq{i+1}" for i in range(len(sequences))])
+
+    return pd.DataFrame(records, index=[f"seq{i + 1}" for i in range(len(sequences))])
+
 
 def one_hot(sequences, max_length=None):
     """
@@ -78,13 +80,10 @@ def one_hot(sequences, max_length=None):
         encoded_records.append(mapping)
 
     # Create column names
-    columns = [f"pos{i+1}" for i in range(max_length * 4)]
+    columns = [f"pos{i + 1}" for i in range(max_length * 4)]
 
     return pd.DataFrame(
         encoded_records,
-        columns=columns[:encoded_records[0].shape[0]],
-        index=[f"seq{i+1}" for i in range(len(sequences))]
+        columns=columns[: encoded_records[0].shape[0]],
+        index=[f"seq{i + 1}" for i in range(len(sequences))],
     )
-
-
-    

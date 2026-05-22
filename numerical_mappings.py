@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 def zcurve(sequences, max_length=None):
     """
     Returns 3D z-curve representations.
@@ -48,15 +49,15 @@ def zcurve(sequences, max_length=None):
 
         concat = x + y + z
         padding = (max_length - len(seq)) * 3
-        mapping = np.pad(concat, (0, padding), 'constant')
+        mapping = np.pad(concat, (0, padding), "constant")
         features.append(mapping)
 
-    return pd.DataFrame(features, index=[f"seq{i+1}" for i in range(len(sequences))])
+    return pd.DataFrame(features, index=[f"seq{i + 1}" for i in range(len(sequences))])
 
 
 def integer(sequences, max_length=None):
     """
-    Returns integer representations --> 
+    Returns integer representations -->
     U/T:0
     C:1
     A:2
@@ -85,15 +86,15 @@ def integer(sequences, max_length=None):
         seq = seq.upper()
         mapping = [mapping_dict.get(n, 3) for n in seq]
         padding = max_length - len(mapping)
-        mapping = np.pad(mapping, (0, padding), 'constant')
+        mapping = np.pad(mapping, (0, padding), "constant")
         features.append(mapping)
 
-    return pd.DataFrame(features, index=[f"seq{i+1}" for i in range(len(sequences))])
+    return pd.DataFrame(features, index=[f"seq{i + 1}" for i in range(len(sequences))])
 
 
 def real(sequences, max_length=None):
     """
-    Returns real representations --> 
+    Returns real representations -->
     U/T:1.5
     C:0.5
     A:-1.5
@@ -122,15 +123,15 @@ def real(sequences, max_length=None):
         seq = seq.upper()
         mapping = [mapping_dict.get(n, -0.5) for n in seq]
         padding = max_length - len(mapping)
-        mapping = np.pad(mapping, (0, padding), 'constant')
+        mapping = np.pad(mapping, (0, padding), "constant")
         features.append(mapping)
 
-    return pd.DataFrame(features, index=[f"seq{i+1}" for i in range(len(sequences))])
+    return pd.DataFrame(features, index=[f"seq{i + 1}" for i in range(len(sequences))])
 
 
 def EIIP(sequences, max_length=None):
     """
-    Returns EIIP (Electron-Ion Interaction Pseudopotentials) Values --> 
+    Returns EIIP (Electron-Ion Interaction Pseudopotentials) Values -->
     U/T:0.1335
     C:0.1340
     A:0.1260
@@ -159,15 +160,15 @@ def EIIP(sequences, max_length=None):
         seq = seq.upper()
         mapping = [mapping_dict.get(n, 0.0806) for n in seq]
         padding = max_length - len(mapping)
-        mapping = np.pad(mapping, (0, padding), 'constant')
+        mapping = np.pad(mapping, (0, padding), "constant")
         features.append(mapping)
 
-    return pd.DataFrame(features, index=[f"seq{i+1}" for i in range(len(sequences))])
+    return pd.DataFrame(features, index=[f"seq{i + 1}" for i in range(len(sequences))])
 
 
 def atomic_number(sequences, max_length=None):
     """
-    Returns atomic number based representations for sequences --> 
+    Returns atomic number based representations for sequences -->
     U/T:66
     C:58
     A:70
@@ -196,7 +197,7 @@ def atomic_number(sequences, max_length=None):
         seq = seq.upper()
         mapping = [mapping_dict.get(n, 78) for n in seq]
         padding = max_length - len(mapping)
-        mapping = np.pad(mapping, (0, padding), 'constant')
+        mapping = np.pad(mapping, (0, padding), "constant")
         features.append(mapping)
 
-    return pd.DataFrame(features, index=[f"seq{i+1}" for i in range(len(sequences))])
+    return pd.DataFrame(features, index=[f"seq{i + 1}" for i in range(len(sequences))])
