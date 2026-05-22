@@ -6,6 +6,9 @@ import numpy as np
 
 
 def combine_dfs_cumulative(dfs, start, end):
+    '''
+    Generates z-curve only for windows start to end from single z-curve representations
+    '''
     selected = dfs[start:end]
     df_combine = pd.DataFrame(index=selected[0][selected[0].keys()[0]])
     cols = selected[0].keys()[1:]
@@ -13,7 +16,7 @@ def combine_dfs_cumulative(dfs, start, end):
     for col in cols:
         cumulative = [0] * len(df_combine.index)
         for i, df in enumerate(selected, start=0):
-            cumulative = cumulative + np.asarray(df[col])
+            cumulative = cumulative + np.asarray(df[col])#keep adding z-curves cus its cumilative
             df_combine[curr_col] = cumulative
             curr_col = curr_col + 1
 
@@ -21,6 +24,9 @@ def combine_dfs_cumulative(dfs, start, end):
 
 
 def get_all_windows(window_size, dfs):
+    '''
+    Generate all windows for a given size
+    '''
     rep_dict = {}
     for window in range(0, 22 - window_size):
         rep_dict[
@@ -35,7 +41,7 @@ def get_all_windows(window_size, dfs):
 
 
 df_names = [f"zcurve_{str(i)}.csv" for i in range(0, 21)]
-dfs = [pd.read_csv(config.representation_dir + "/" + i) for i in df_names]
+dfs = [pd.read_csv(config.representation_dir + "/" + i) for i in df_names] #use single_window_representations
 for window_size in [1, 2, 3, 6, 9, 12, 15, 18, 21]:
     reps = get_all_windows(window_size, dfs)
     for rep in reps:

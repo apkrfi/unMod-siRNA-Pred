@@ -2,5 +2,8 @@ __pycache__/
 .ipynb_checkpoints/
 siRNA_unmod/
 test_representations.py
-sliding_window_representations/
-sliding_window_outfolder/
+single_window_outfolder/
+.ruff_cache/
+images/
+more_tests
+.ipynb

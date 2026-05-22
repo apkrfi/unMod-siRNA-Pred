@@ -37,7 +37,7 @@ class Model:
         self.metric_dictionary = {}
 
     def create_model(self):
-        """Create sklearn models"""
+        """Create sklearn models with default parameters"""
 
         if self.name == "RF":
             self.clf = RandomForestClassifier(random_state=42)  # n_estimators-->reduced
