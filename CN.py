@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from igraph import Graph
 
+
 def _patterns(seq, k):
     """Yield all k-mers (sliding window)."""
     seqlen = len(seq)
@@ -13,7 +14,7 @@ def _patterns(seq, k):
 
 
 def _extract_features_from_graph(g: Graph):
-    
+
     feats = {
         "avg_betweenness": np.mean(g.betweenness(directed=False, weights=None)),
         "avg_degree": np.mean(g.degree()),
@@ -49,7 +50,7 @@ def complex_network_features(sequences, k=3, threshold=3):
     pandas.DataFrame
         DF with CTD features.
 
-    """    
+    """
     all_features = []
 
     for seq in sequences:
@@ -60,11 +61,13 @@ def complex_network_features(sequences, k=3, threshold=3):
         seen = set()
 
         for i in range(len(kmers) - 1):
-            v1, v2 = kmers[i], kmers[i+1]
+            v1, v2 = kmers[i], kmers[i + 1]
             if v1 not in seen:
-                cn.add_vertices(v1); seen.add(v1)
+                cn.add_vertices(v1)
+                seen.add(v1)
             if v2 not in seen:
-                cn.add_vertices(v2); seen.add(v2)
+                cn.add_vertices(v2)
+                seen.add(v2)
             cn.add_edges([(v1, v2)])
 
         # Extract features under thresholding
@@ -76,10 +79,20 @@ def complex_network_features(sequences, k=3, threshold=3):
 
             if g_thr.ecount() < 1:
                 # fill zeros if graph is too sparse
-                for feat in ["avg_betweenness","avg_degree","assortativity_degree",
-                             "max_degree","min_degree","std_degree",
-                             "avg_path_length","transitivity_local","transitivity_global",
-                             "num_edges","motifs_size3","motifs_size4"]:
+                for feat in [
+                    "avg_betweenness",
+                    "avg_degree",
+                    "assortativity_degree",
+                    "max_degree",
+                    "min_degree",
+                    "std_degree",
+                    "avg_path_length",
+                    "transitivity_local",
+                    "transitivity_global",
+                    "num_edges",
+                    "motifs_size3",
+                    "motifs_size4",
+                ]:
                     seq_feats[f"{feat}_{t}"] = 0
             else:
                 feats = _extract_features_from_graph(g_thr)
@@ -88,4 +101,6 @@ def complex_network_features(sequences, k=3, threshold=3):
 
         all_features.append(seq_feats)
 
-    return pd.DataFrame(all_features, index=[f"seq{i+1}" for i in range(len(sequences))])
+    return pd.DataFrame(
+        all_features, index=[f"seq{i + 1}" for i in range(len(sequences))]
+    )
