@@ -131,7 +131,7 @@ def CTD(seq):
     )
 
 
-def get_ctd(sequences):
+def global_descriptor(sequences):
     """
     Returns Composition-Transition-Distribution features for sequences.
 
