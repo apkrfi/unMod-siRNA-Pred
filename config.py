@@ -1,6 +1,6 @@
 datapath = "raw_data/All_Dataset.csv"
 representation_dir = "representations" #or single_window_representations
-outpath = "other_CV_tests" #or LOGO_outfolder
+outpath = "LOGO_outfolder" #or LOGO_outfolder
 
 """
 datapath

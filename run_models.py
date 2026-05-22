@@ -12,6 +12,7 @@ from sklearn.model_selection import (
 from models import *
 import json
 import time
+import argparse
 
 """
 This is the main model and cross-validation section.
@@ -136,7 +137,7 @@ class Run_Model:
         with open(os.path.join(outpath, self.outfile_name), "w") as fp:
             json.dump(self.metrics, fp)
 
-    def logo_run_fixed_size(self):
+    def logo_fixed_size(self):
         '''
         leave one group out with fixed training set size
         '''
@@ -173,7 +174,7 @@ class Run_Model:
         with open(os.path.join(outpath, self.outfile_name), "w") as fp:
             json.dump(self.metrics, fp)
 
-    def databound_test(self):
+    def databound_run(self):
         '''
         train: Huesken
         test: Reamining data aka Independent set 
@@ -219,18 +220,49 @@ class Run_Model:
             json.dump(self.metrics, fp)
 
 
+
 def main():
+    parser = argparse.ArgumentParser(description="Run siRNA Models")
+    parser.add_argument(
+        "--representations", "-r",
+        nargs="+",
+        default=["zcurve"],
+        choices=[
+            "zcurve", "one_hot", "real", "EIIP", "atomic_number",
+            "classifical_chaos", "complex_network_features", "frequency_chaos",
+            "GC_count", "global_descriptor", "integer", "kmer_counts"
+        ],
+        metavar="REP",
+        help="One or more representations to test (default: zcurve)"
+    )
+    parser.add_argument(
+        "--cv", "-c",
+        default="logo",
+        choices=["logo", "logo_fixed_size", "holdout", "databound", "kfold"],
+        help="Cross-validation method to use (default: holdout)"
+    )
+    parser.add_argument(
+        "--huesken",
+        action="store_true",
+        help="Enable huesken mode (use for logo/logo_fixed_size/kfold; omit for holdout/databound)"
+    )
+    parser.add_argument(
+        "--output-suffix",
+        default="_logo.json",
+        help="Suffix for output JSON filenames (default: _holdout.json)"
+    )
+    args = parser.parse_args()
+
     start = time.perf_counter()
-    # representations=['zcurve','one_hot','real','EIIP','atomic_number','classifical_chaos','complex_network_features','frequency_chaos','GC_count','global_descriptor','integer','kmer_counts']
-    representations = ["zcurve"] #representations to test on
-    for rep in representations:
+
+    for rep in args.representations:
         print("Starting for: " + rep)
-        rm = Run_Model([rep], rep + "_holdout.json", huesken=False)#takes one representation at a time i.e. [rep] 
-        ############################################ huesken=False for holdout/databound huesken=True for logo/logo_fixed_size/kfold
-        rm.holdout_run()  # one of the Cross-validations logo/logo_fixed_size/holdout/databound/kfold
+        rm = Run_Model([rep], rep + args.output_suffix, huesken=args.huesken)
+        getattr(rm, f"{args.cv}_run")()
+
     end = time.perf_counter()
     print(f"Total time: {end - start:.2f} seconds")
 
-
 if __name__ == "__main__":
     main()
+    #usage python run_models.py -r zcurve --output-suffix "_logo.json" -c logo --huesken
