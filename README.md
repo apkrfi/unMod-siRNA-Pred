@@ -20,7 +20,7 @@ Found in physico_chemical.py we extract
 
 ##### Numeric
 Found in numerical_mappings.py we extract
-- Z-curve representations
+- zcurve representations
 - Integer representations
 - EIIP (Electron-Ion Interaction Pseudopotentials)
 - Atomic Number based representations
@@ -110,27 +110,27 @@ python get_single_window_representations.py
 
 a. Leave One Group Out
 ```
-python run_models.py -r z-curve --output-suffix "_logo.json" -c logo --huesken
+python run_models.py -r zcurve --output-suffix "_logo.json" -c logo --huesken
 ```
 
 b. Leave One Group Out Fixed Size
 ```
-python run_models.py -r z-curve --output-suffix "_logo_fixed_size_.json" -c logo_fixed_size --huesken
+python run_models.py -r zcurve --output-suffix "_logo_fixed_size_.json" -c logo_fixed_size --huesken
 ```
 
 c. Holdout
 ```
-python run_models.py -r z-curve --output-suffix "_holdout.json" -c holdout 
+python run_models.py -r zcurve --output-suffix "_holdout.json" -c holdout 
 ```
 
 d. Databound
 ```
-python run_models.py -r z-curve --output-suffix "_databound.json" -c databound 
+python run_models.py -r zcurve --output-suffix "_databound.json" -c databound 
 ```
 
 e. K-fold
 ```
-python run_models.py -r z-curve --output-suffix "_kfold.json" -c kfold --huesken
+python run_models.py -r zcurve --output-suffix "_kfold.json" -c kfold --huesken
 ```
 
 ### 6. Run Sliding Window Tests

@@ -1,18 +1,18 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "unMod-siRNA-Pred"
 version = "0.1.0"
-description = "siRNA activity prediction"
+description = ""
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Aparajita Karmakar", email = "aparajita.karmakar@rfi.ac.uk" }
+    { name = "Aparajita Karmakar", email = "aparajita.karmakar@rfi.ac.in" }
 ]
-keywords = ["machine-learning", "data-science", "siRNA"]
+
 
 dependencies = [
     "numpy>=1.26",
@@ -23,6 +23,9 @@ dependencies = [
     "scipy>=1.12",
     "joblib>=1.3",
     "tqdm>=4.66",
+    "igraph>=0.11",
+    "xgboost>=2.0",
+    "progressbar2>=4.0",
 ]
 
 [project.optional-dependencies]
@@ -44,8 +47,24 @@ dev = [
 ]
 
 [project.scripts]
-# siRNA_unmod = "siRNA_unmod.cli:main"
+# Uncomment and rename to add a CLI entry point:
+# unMod-siRNA-Pred = "unMod_siRNA_Pred.cli:main"
 
+
+[tool.setuptools]
+py-modules = [
+    "basic",
+    "chaos",
+    "CN",
+    "config",
+    "get_representations",
+    "get_single_window_representations",
+    "models",
+    "numerical_mappings",
+    "physico_chemical",
+    "run_models",
+    "run_sliding_window",
+]
 
 [tool.setuptools.package-data]
 "*" = ["*.yaml", "*.json", "*.csv"]
