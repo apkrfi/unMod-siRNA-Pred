@@ -84,23 +84,59 @@ We have conducted several experiments on our datasets.
 - Purpose: To see how the training size influences model performance
 
 # Usage
-### 1. Create environment
-### 2. Install packages
-### 3. Generate Representations
-### 4. Generate Single Window Representations
-### 5. Run Tests
+### 1. Clone Repo
+```
+git clone https://github.com/apkrfi/unMod-siRNA-Pred.git
+cd unMod-siRNA-Pred
+```
+### 2. Create environment
+```
+conda create -n siRNA_unmod
+conda activate siRNA_unmod
+```
+### 3. Install packages
+```
+pip install -e ".[dev,notebooks,deep-learning]"
+```
+### 4. Generate Representations
+```
+python get_representations.py --datapath raw_data/All_Dataset.csv --representation_dir representations
+```
+### 5. Generate Single Window Representations
+```
+python get_single_window_representations.py 
+```
+### 6. Run Tests
 
 a. Leave One Group Out
+```
+python run_models.py -r z-curve --output-suffix "_logo.json" -c logo --huesken
+```
 
 b. Leave One Group Out Fixed Size
+```
+python run_models.py -r z-curve --output-suffix "_logo_fixed_size_.json" -c logo_fixed_size --huesken
+```
 
 c. Holdout
+```
+python run_models.py -r z-curve --output-suffix "_holdout.json" -c holdout 
+```
 
 d. Databound
+```
+python run_models.py -r z-curve --output-suffix "_databound.json" -c databound 
+```
 
 e. K-fold
+```
+python run_models.py -r z-curve --output-suffix "_kfold.json" -c kfold --huesken
+```
 
 ### 6. Run Sliding Window Tests
+```
+python run_sliding_window.py 
+```
 
 
 
