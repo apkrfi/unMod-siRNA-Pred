@@ -137,7 +137,7 @@ class Run_Model:
         with open(os.path.join(outpath, self.outfile_name), "w") as fp:
             json.dump(self.metrics, fp)
 
-    def logo_fixed_size(self):
+    def logo_fixed_size_run(self):
         '''
         leave one group out with fixed training set size
         '''
