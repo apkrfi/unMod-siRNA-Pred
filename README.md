@@ -1,3 +1,8 @@
+# Project Description
+This project aims to design a fast and accurate siRNA efficacy prediction pipeline based on the experiments discussed in [Benchmarking siRNA Prediction: The Role of Representation and Validation Strategies](https://www.biorxiv.org/content/10.64898/2026.05.12.724560v1.full.pdf)
+
+The work explore various sequence representation techniques and cross validation strategies for optimizing siRNA acticity prediction.
+
 # Datasets
 
 Datasets were extracted from La Rosa's experiments. Our version includes a cleaned version with siRNA/mRNA names and sequences, efficacy values, corresponding Labels (efficacy>0.7: 1/High, efficacy<0.7: 0/Low) and sources i.e. Huesken/Others (refer paper). 
@@ -42,6 +47,31 @@ Representations were gereated for:
 
 - Full dataset found in => \\representations
 - Each nucleotide (0th-21st) found in ==> \\single_window_representations
+
+# Directory Structure
+```
+unmod-siRNA-Pred/
+├── LOGO_outfolder/                               <-------- Leave One Group/Target Out outputs
+├── other_CV_tests/                               <-------- Holdout, K-fold, Fixed-training size, Data bound tests
+├── raw_data/                                     <-------- raw dataset
+├── representations/                              <-------- all sequence representations
+├── single_window_representations/                <-------- single nucleotide representations using z-curve
+├── sliding_window_outfolder/                     <-------- sliding Window outputs
+├── CN.py                                         <-------- Complex Network representation
+├── basic.py                                      <-------- K-mer, One-hot encodings
+├── chaos.py                                      <-------- Chaos Game Theory representations
+├── numerical_mappings.py                         <-------- z-curve, integerer, real, atomic, EIIP representations
+├── physico_chemical.py                           <-------- GC counts, Global sequence descriptors
+├── get_representations.py                        <-------- generates representations
+├── get_single_window_representations.py          <-------- generates single nucelotide representations
+├── models.py                                     <-------- model declarations
+├── run_models.py                                 <-------- Training/Evaluation
+├── run_sliding_window.py                         <-------- sliding window experiment
+├── config.py                                     <-------- some global declarations
+├── pyproject.toml                                <-------- project requirements
+├── uv.lock                                       <-------- frozen environment
+
+```
 
 # Output
 
@@ -95,8 +125,9 @@ conda create -n siRNA_unmod
 conda activate siRNA_unmod
 ```
 ### 3. Install packages
+Download uv using [uv installation steps]([https://example.com](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer))
 ```
-pip install -e ".[dev,notebooks,deep-learning]"
+uv sync
 ```
 ### 4. Generate Representations
 ```
