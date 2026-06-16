@@ -120,15 +120,14 @@ We have conducted several experiments on our datasets.
 git clone https://github.com/apkrfi/unMod-siRNA-Pred.git
 cd unMod-siRNA-Pred
 ```
-### 2. Create environment
-```
-conda create -n siRNA_unmod
-conda activate siRNA_unmod
-```
-### 3. Install packages
+### 2. Install packages
 Download uv using [uv installation steps]([https://example.com](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer))
 ```
 uv sync
+```
+### 3. Activate environment
+```
+source .venv/bin/activate
 ```
 ### 4. Generate Representations
 ```
