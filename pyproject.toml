@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Aparajita Karmakar", email = "aparajita.karmakar@rfi.ac.in" }
+    { name = "Aparajita Karmakar", email = "aparajita.karmakar@rfi.ac.uk" }
 ]
 
 
