@@ -129,21 +129,28 @@ uv sync
 ```
 source .venv/bin/activate
 ```
+###
+Set config.py
+```
+representation_dir = "representations"
+outpath = "LOGO_outfolder"
+```
 ### 4. Generate Representations
 ```
 python get_representations.py --datapath raw_data/All_Dataset.csv --representation_dir representations
 ```
-### 5. Generate Single Window Representations
-```
-python get_single_window_representations.py 
-```
-### 6. Run Tests
+### 5. Run Tests
 
 a. Leave One Group Out
 ```
 python run_models.py -r zcurve --output-suffix "_logo.json" -c logo --huesken
 ```
-
+###
+Set config.py
+```
+representation_dir = "representations"
+outpath = "other_CV_tests"
+```
 b. Leave One Group Out Fixed Size
 ```
 python run_models.py -r zcurve --output-suffix "_logo_fixed_size_.json" -c logo_fixed_size --huesken
@@ -164,7 +171,19 @@ e. K-fold
 python run_models.py -r zcurve --output-suffix "_kfold.json" -c kfold --huesken
 ```
 
-### 6. Run Sliding Window Tests
+###
+Set config.py
+```
+representation_dir = "single_window_representations"
+outpath = "sliding_window_outfolder"
+```
+
+### 6. Generate Single Window Representations
+Then Run
+```
+python get_single_window_representations.py 
+```
+### 7. Run Sliding Window Tests
 ```
 python run_sliding_window.py 
 ```
