@@ -1,6 +1,6 @@
 datapath = "raw_data/All_Dataset.csv"
 representation_dir = "representations" #or single_window_representations
-outpath = "LOGO_outfolder" #or LOGO_outfolder
+outpath = "other_CV_tests" #or LOGO_outfolder
 
 """
 datapath
@@ -21,6 +21,7 @@ outpath
 path to outputs/ metrics for various tests
 
 - LOGO: LOGO_outfolder
+- thresholded: threshold_outfolder
 - single window window: single_window_outfolder
 - sliding window: sliding_window_outfolder
 - fixed size LOGO, Holdout test (on other data), databound test, K-fold test: other_CV_tests
