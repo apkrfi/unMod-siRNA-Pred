@@ -2,7 +2,11 @@ import numpy as np
 import pandas as pd
 import os
 from sklearn.neural_network import MLPClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import (
+    RandomForestClassifier,
+    VotingClassifier,
+    StackingClassifier,
+)
 from sklearn.model_selection import (
     KFold,
     LeaveOneGroupOut,
@@ -36,27 +40,33 @@ class Model:
         self.scores_y = []
         self.metric_dictionary = {}
 
-    def create_model(self):
-        """Create sklearn models with default parameters"""
 
-        if self.name == "RF":
-            self.clf = RandomForestClassifier(random_state=42)  # n_estimators-->reduced
-        elif self.name == "MLP":
-            self.clf = MLPClassifier(
-                random_state=42
-            )  # https://doi.org/10.1016/j.ygeno.2024.110815
-        elif self.name == "XGB":
-            self.clf = XGBClassifier(random_state=42, objective="binary:logistic")
-        elif self.name == "SVC":
-            self.clf = SVC(probability=True, random_state=42)
-        elif self.name == "LGR":
-            self.clf = LogisticRegression(random_state=42)
-        elif self.name == "DT":
-            self.clf = tree.DecisionTreeClassifier(random_state=42)
-        elif self.name == "KNN":
-            self.clf = KNeighborsClassifier()
-        elif self.name == "SGD":
-            self.clf = SGDClassifier(random_state=42, loss="log_loss")
+    def _base_models(self):
+        """Return fresh instances of all base classifiers."""
+        return {
+            "RF": RandomForestClassifier(random_state=42),
+            "MLP": MLPClassifier(random_state=42),  # https://doi.org/10.1016/j.ygeno.2024.110815
+            "XGB": XGBClassifier(random_state=42, objective="binary:logistic"),
+            "SVC": SVC(probability=True, random_state=42),
+            "LGR": LogisticRegression(random_state=42),
+            "DT": tree.DecisionTreeClassifier(random_state=42),
+            "KNN": KNeighborsClassifier(),
+            "SGD": SGDClassifier(random_state=42, loss="log_loss"),
+        }
+
+    def create_model(self, ensemble_members=("RF", "XGB", "SGD", "LGR", "MLP")):
+        """Create sklearn models with default parameters"""
+        models = self._base_models()
+
+        if self.name in models:
+            self.clf = models[self.name]
+
+        elif self.name == "VOTE":
+            estimators = [(n, models[n]) for n in ensemble_members]
+            self.clf = VotingClassifier(estimators=estimators, voting="soft", n_jobs=1)
+
+        else:
+            raise ValueError(f"Unknown model name: {self.name}")
 
     def get_metrics(self):
         """Generate classification metrics"""

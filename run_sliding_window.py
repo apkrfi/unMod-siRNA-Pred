@@ -42,12 +42,15 @@ def get_all_windows(window_size, dfs):
 
 df_names = [f"zcurve_{str(i)}.csv" for i in range(0, 21)]
 dfs = [pd.read_csv(config.representation_dir + "/" + i) for i in df_names] #use single_window_representations
-for window_size in [1, 2, 3, 6, 9, 12, 15, 18, 21]:
+for window_size in [1, 2, 3, 6, 9, 12, 15, 18, 19, 20, 21]:
     reps = get_all_windows(window_size, dfs)
     for rep in reps:
         print(rep)
         print(reps[rep].head(2))
         reps[rep].to_csv(config.representation_dir + "/current_window.csv")
         print("Starting for: " + rep)
-        rm = Run_Model(["current_window"], rep + ".json", huesken=True)
+        if(window_size==1):
+            rm = Run_Model(["current_window"], rep + ".json", huesken=True, keep_preds=True)
+        else:
+            rm = Run_Model(["current_window"], rep + ".json", huesken=True, keep_preds=False)
         rm.logo_run()

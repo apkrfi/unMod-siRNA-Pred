@@ -1,0 +1,8 @@
+,Rep,Time
+0,zcurve,208.90684142895043
+1,one_hot,220.6933136144653
+2,classifical_chaos,225.58401800133288
+3,zcurve_one_hot,233.02443872392178
+4,zcurve_classifical_chaos,236.46381163038313
+5,one_hot_classifical_chaos,245.03731128480285
+6,zcurve_one_hot_classifical_chaos,265.1784953819588
